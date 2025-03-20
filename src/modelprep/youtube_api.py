@@ -1,7 +1,7 @@
 import os
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
-import csv
+import pandas as pd
 
 class YouTubeAPI:
     def __init__(self):
@@ -14,5 +14,20 @@ class YouTubeAPI:
     def _build_api(self):
         return build("youtube", "v3", developerKey=self.api_key)
 
-    def get_service(self):
-        return self.youtube
+    def get_video_metrics(self, video_id):
+        request = self.youtube.videos().list(
+            part="snippet,statistics",
+            id=video_id
+        )
+        
+        response = request.execute()
+        
+        if "items" in response and len(response["items"]) > 0:
+            video = response["items"][0]
+            title = video["snippet"]["title"]
+            upload_date = video["snippet"]["publishedAt"]
+            views = video["statistics"]["viewCount"]
+            
+            return [title, upload_date, views]
+        else:
+            print("Video not found")
