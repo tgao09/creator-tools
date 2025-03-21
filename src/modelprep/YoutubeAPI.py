@@ -1,7 +1,6 @@
 import os
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
-import pandas as pd
 
 class YouTubeAPI:
     def __init__(self):
@@ -27,7 +26,8 @@ class YouTubeAPI:
             title = video["snippet"]["title"]
             upload_date = video["snippet"]["publishedAt"]
             views = video["statistics"]["viewCount"]
+            thumbnail_url = video["snippet"]["thumbnails"]["default"]["url"]
             
-            return [title, upload_date, views]
+            return [title, upload_date, views, thumbnail_url]
         else:
             print("Video not found")
