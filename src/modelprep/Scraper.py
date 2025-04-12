@@ -7,7 +7,6 @@ import pandas as pd
 
 import os.path
 
-
 class Scraper:
     access_api = YouTubeAPI()
     thumbnail_links = []
@@ -15,8 +14,8 @@ class Scraper:
     
     def _upload_thumbnail(self, id, thumbnail_link):
         photo_request = requests.get(thumbnail_link)
-        if photo_request.status_code == 200 and os.path.exists('src/data/{id}.jpg') == False:
-            with open(f'src/data/{id}.jpg', 'wb') as f:
+        if photo_request.status_code == 200 and os.path.exists('src/data/thumbnails/{id}.jpg') == False:
+            with open(f'src/data/thumbnails/{id}.jpg', 'wb') as f:
                 f.write(photo_request.content)
         
     def upload_videos(self, id_list):
